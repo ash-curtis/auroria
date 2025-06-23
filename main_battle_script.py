@@ -86,11 +86,11 @@ while user_pokemon['stats']['hp'] > 0 and opponent_pokemon['stats']['hp'] > 0:
       if move_type in type_chart and opponent_type in type_chart[move_type][
           'super_effective']:
         damage = int(damage * 1.5)
-        effectiveness_message = "\n\033[1mIt's super effective!\033[0m"
+        effectiveness_message = "\033[1mIt's super effective!\033[0m"
       elif move_type in type_chart and opponent_type in type_chart[move_type][
           'not_very_effective']:
         damage = int(damage * 0.5)
-        effectiveness_message = "\n\033[1mIt's not very effective!\033[0m"
+        effectiveness_message = "\033[1mIt's not very effective!\033[0m"
 
       # Apply final damage to opponent
       # Changed access to opponent_pokemon['stats']['hp']
