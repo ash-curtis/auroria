@@ -4,8 +4,8 @@ user_pokemon = {
 
   'type': 'Fire',
   'moves': [
-    {'name': 'Scratch', 'power': 10, 'type': 'Normal'},
-    {'name': 'Ember', 'power': 25, 'type': 'Fire'}
+    {'name': 'Scratch', 'power': 10, 'type': 'Normal', 'category', 'Physical'},
+    {'name': 'Ember', 'power': 25, 'type': 'Fire', 'category'., 'Special'}
   ],
   'status': None, # as not starting off with a condition
   'stats': {
