@@ -55,7 +55,7 @@ while user_pokemon['stats']['hp'] > 0 and opponent_pokemon['stats']['hp'] > 0:
 
       # only calculate damage if physical or special move
       if move_category in ['Physical', 'Special']:
-        # simplified formula for now: (attacker's stat / defender's stat) * move power
+        # simple formula for now: (attacker's stat / defender's stat) * move power
         # maybe scaling constant later
         if defender_stat == 0:  # as can't divide by zero
           base_damage = 0
@@ -65,8 +65,10 @@ while user_pokemon['stats']['hp'] > 0 and opponent_pokemon['stats']['hp'] > 0:
       # convert to int (as health is)
       damage = int(base_damage)
 
+      # initialise messages for opponent's attack
       critical_hit_message = ""
       stab_message = ""
+      effectiveness_message = ""
 
       # user critical hit
       is_critical_hit = False
@@ -81,7 +83,6 @@ while user_pokemon['stats']['hp'] > 0 and opponent_pokemon['stats']['hp'] > 0:
         stab_message = f"\033[1m{user_pokemon['name']} got a STAB bonus! \033[0m"
 
       # check for user's attack effectiveness
-      effectiveness_message = ""
       opponent_type = opponent_pokemon['type']
       if move_type in type_chart and opponent_type in type_chart[move_type][
           'super_effective']:
@@ -92,8 +93,7 @@ while user_pokemon['stats']['hp'] > 0 and opponent_pokemon['stats']['hp'] > 0:
         damage = int(damage * 0.5)
         effectiveness_message = "\033[1mIt's not very effective!\033[0m"
 
-      # Apply final damage to opponent
-      # Changed access to opponent_pokemon['stats']['hp']
+      # apply final damage to opponent
       opponent_pokemon['stats'][
           'hp'] = opponent_pokemon['stats']['hp'] - damage
       print(
@@ -108,8 +108,7 @@ while user_pokemon['stats']['hp'] > 0 and opponent_pokemon['stats']['hp'] > 0:
       if critical_hit_message:
         print(critical_hit_message)
 
-        # check if opponent fainted
-      # Changed access to opponent_pokemon['stats']['hp']
+      # check if opponent fainted
       if opponent_pokemon['stats']['hp'] <= 0:
         print(f"\n--- {opponent_pokemon['name']} fainted! You win! ---")
         break
@@ -132,32 +131,68 @@ while user_pokemon['stats']['hp'] > 0 and opponent_pokemon['stats']['hp'] > 0:
           opponent_move = move
           break
 
-      opponent_damage = opponent_move['power']
+      opponent_move_power = opponent_move['power']
       opponent_move_type = opponent_move['type']
+      opponent_move_category = opponent_move['category']
 
-      # opponent critical hit
-      if random.randint(1, 2) == 1:
-        opponent_damage = int(opponent_damage * 1.5)
-        opponent_critical_hit_message = f"\033[1mA critical hit for {opponent_pokemon['name']}!\033[0m"
+      # initialise damage and base_damage for opponent
+      opponent_damage = 0
+      base_opponent_damage = 0
 
-      # opponent STAB multiplier
-      if opponent_pokemon['type'] == opponent_move_type:
-        opponent_damage = int(opponent_damage * 1.5)
-        opponent_stab_message = f"\033[1m{opponent_pokemon['name']} got a STAB bonus! \033[0m"
+      # determine attacker's stat (opponent) and defender's stat (user) based on move category
+      opponent_attacker_stat = 0
+      opponent_defender_stat = 0
+
+      # check move category and set relevant stats (aligned here)
+      if opponent_move_category == 'Physical':
+        opponent_attacker_stat = opponent_pokemon['stats']['attack']
+        opponent_defender_stat = user_pokemon['stats']['defense']
+      elif opponent_move_category == 'Special':
+        opponent_attacker_stat = opponent_pokemon['stats']['sp_attack']
+        opponent_defender_stat = user_pokemon['stats']['sp_defense']
+
+      # Only calculate base damage if it's a physical or special move
+      if opponent_move_category in ['Physical', 'Special']:
+        # core damage formula: (attacker's stat / defender's stat) * move power
+        if opponent_defender_stat == 0:
+          base_opponent_damage = 0
+        else:
+          base_opponent_damage = (opponent_attacker_stat /
+                                  opponent_defender_stat) * opponent_move_power
+
+        # convert to int (as hp is int)
+        opponent_damage = int(base_opponent_damage)
+      else:  # if it's a Status move, ensure damage is 0
+        opponent_damage = 0
+
+      # inistialise messages for opponent's attack
+      opponent_critical_hit_message = ""
+      opponent_stab_message = ""
+      opponent_effectiveness_message = ""
+
+      # spply critical hit, STAB, effectiveness to opponent_damage
+      # only if it's a damaging move (physical or special)
+      if opponent_move_category in ['Physical', 'Special']:
+        # opponent critical hit
+        if random.randint(1, 2) == 1:
+          opponent_damage = int(opponent_damage * 1.5)
+          opponent_critical_hit_message = f"\033[1mA critical hit for {opponent_pokemon['name']}!\033[0m"
+
+        # opponent STAB multiplier
+        if opponent_pokemon['type'] == opponent_move_type:
+          opponent_damage = int(opponent_damage * 1.5)
+          opponent_stab_message = f"\033[1m{opponent_pokemon['name']} got a STAB bonus! \033[0m"
 
         # check for opponent's attack effectiveness
-      opponent_effectiveness_message = ""
-      if opponent_move_type in type_chart and player_type in type_chart[
-          opponent_move_type]['super_effective']:
-        opponent_damage = int(opponent_damage * 1.5)
-        opponent_effectiveness_message = "\033[1mIt's super effective!\033[0m"
-      elif opponent_move_type in type_chart and player_type in type_chart[
-          opponent_move_type]['not_very_effective']:
-        opponent_damage = int(opponent_damage * 0.5)
-        opponent_effectiveness_message = "\033[1mIt's not very effective!\033[0m"
+        if opponent_move_type in type_chart and player_type in type_chart[
+            opponent_move_type]['super_effective']:
+          opponent_damage = int(opponent_damage * 1.5)
+          opponent_effectiveness_message = "\033[1mIt's super effective!\033[0m"
+        elif opponent_move_type in type_chart and player_type in type_chart[
+            opponent_move_type]['not_very_effective']:
+          opponent_damage = int(opponent_damage * 0.5)
+          opponent_effectiveness_message = "\033[1mIt's not very effective!\033[0m"
 
-      # spply final damage to player
-      # Changed access to user_pokemon['stats']['hp']
       user_pokemon['stats'][
           'hp'] = user_pokemon['stats']['hp'] - opponent_damage
       print(
@@ -173,7 +208,6 @@ while user_pokemon['stats']['hp'] > 0 and opponent_pokemon['stats']['hp'] > 0:
         print(opponent_critical_hit_message)
 
       # check if player fainted
-      # Changed access to user_pokemon['stats']['hp']
       if user_pokemon['stats']['hp'] <= 0:
         print(f"\n--- {user_pokemon['name']} fainted! You lose. ---")
         break
