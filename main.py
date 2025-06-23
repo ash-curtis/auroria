@@ -7,19 +7,16 @@ from opponent_pokemon_data import opponent_pokemon
 turn_number = 0
 
 # --- THE MAIN BATTLE LOOP ---
-# Changed access to user_pokemon['stats']['hp'] and opponent_pokemon['stats']['hp']
 while user_pokemon['stats']['hp'] > 0 and opponent_pokemon['stats']['hp'] > 0:
-  # 1. Start the turn and show current status
+  # start the turn and show current status
   # increase turn number
   turn_number += 1
   print(f"\n--- Turn {turn_number} ---")
-  # Changed access to user_pokemon['stats']['hp'] and opponent_pokemon['stats']['hp']
-  print(
-      f"\nYour HP: {user_pokemon['stats']['hp']} | Opponent HP: {opponent_pokemon['stats']['hp']}"
+  print(f"\nYour HP: {user_pokemon['stats']['hp']} | Opponent HP: {opponent_pokemon['stats']['hp']}"
   )
   choice = input(f"\nWhat will {user_pokemon['name']} do? (fight / run) ")
 
-  # 2. Handle the "fight" choice
+  # handle the "fight" choice
   if choice == "fight":
     # a. Show move menu
     print("\nYour moves:")
@@ -28,7 +25,7 @@ while user_pokemon['stats']['hp'] > 0 and opponent_pokemon['stats']['hp'] > 0:
 
     move_choice = input("\nWhich move will you use? ")
 
-    # b. Find the chosen move and its properties
+    # find the chosen move and its properties
     damage = 0
     move_type = ""
     for move in user_pokemon['moves']:
@@ -36,7 +33,7 @@ while user_pokemon['stats']['hp'] > 0 and opponent_pokemon['stats']['hp'] > 0:
         damage = move['power']
         move_type = move['type']
 
-    # c. If the move was valid, begin the attack sequence
+    # if the move was valid, begin the attack sequence
     if damage > 0:
       critical_hit_message = ""
       stab_message = ""
@@ -65,8 +62,7 @@ while user_pokemon['stats']['hp'] > 0 and opponent_pokemon['stats']['hp'] > 0:
         damage = int(damage * 0.5)
         effectiveness_message = "\n\033[1mIt's not very effective!\033[0m"
 
-      # Apply final damage to opponent
-      # Changed access to opponent_pokemon['stats']['hp']
+      # apply final damage to opponent
       opponent_pokemon['stats'][
           'hp'] = opponent_pokemon['stats']['hp'] - damage
       print(
@@ -82,7 +78,6 @@ while user_pokemon['stats']['hp'] > 0 and opponent_pokemon['stats']['hp'] > 0:
         print(critical_hit_message)
 
         # check if opponent fainted
-      # Changed access to opponent_pokemon['stats']['hp']
       if opponent_pokemon['stats']['hp'] <= 0:
         print(f"\n--- {opponent_pokemon['name']} fainted! You win! ---")
         break
@@ -129,7 +124,6 @@ while user_pokemon['stats']['hp'] > 0 and opponent_pokemon['stats']['hp'] > 0:
         opponent_effectiveness_message = "\033[1mIt's not very effective!\033[0m"
 
       # spply final damage to player
-      # Changed access to user_pokemon['stats']['hp']
       user_pokemon['stats'][
           'hp'] = user_pokemon['stats']['hp'] - opponent_damage
       print(
@@ -145,7 +139,6 @@ while user_pokemon['stats']['hp'] > 0 and opponent_pokemon['stats']['hp'] > 0:
         print(opponent_critical_hit_message)
 
       # check if player fainted
-      # Changed access to user_pokemon['stats']['hp']
       if user_pokemon['stats']['hp'] <= 0:
         print(f"\n--- {user_pokemon['name']} fainted! You lose. ---")
         break
