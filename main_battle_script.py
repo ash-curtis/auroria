@@ -1,7 +1,7 @@
 # main_battle_script.py
 
 import random
-from type_data import type_chart
+from type_data import get_damage_multiplier
 from user_pokemon_data import Pokemon
 from moves_data import moves
 
@@ -110,13 +110,12 @@ while user_pokemon.stats['hp'] > 0 and opponent_pokemon.stats['hp'] > 0:
 
       # check for user's attack effectiveness
       opponent_type = opponent_pokemon.pokemon_type
-      if move_type in type_chart and opponent_type in type_chart[move_type][
-          'super_effective']:
-        damage = int(damage * 1.5)
+      damage_modifier = get_damage_multiplier(move_type, opponent_type)
+      damage = int(damage * damage_modifier)
+
+      if (damage_modifier > 1.0):
         effectiveness_message = "\033[1mIt's super effective!\033[0m"
-      elif move_type in type_chart and opponent_type in type_chart[move_type][
-          'not_very_effective']:
-        damage = int(damage * 0.5)
+      elif (damage_modifier < 1.0):
         effectiveness_message = "\033[1mIt's not very effective!\033[0m"
 
       # apply final damage to opponent
@@ -160,12 +159,9 @@ while user_pokemon.stats['hp'] > 0 and opponent_pokemon.stats['hp'] > 0:
       opponent_stab_message = ""
       opponent_effectiveness_message = ""
 
-      # checking type chart
-      player_type = user_pokemon.pokemon_type
+      # Finding the most effective move for the opponent
       for move in opponent_pokemon.moves:
-        move_type_for_check = move['type']
-        if move_type_for_check in type_chart and player_type in type_chart[
-            move_type_for_check]['super_effective']:
+        if get_damage_multiplier(move['type'], user_pokemon.pokemon_type) > 1.0:
           opponent_move = move
           break
 
@@ -222,13 +218,12 @@ while user_pokemon.stats['hp'] > 0 and opponent_pokemon.stats['hp'] > 0:
           opponent_stab_message = f"\033[1m{opponent_pokemon.name} got a STAB bonus! \033[0m"
 
         # check for opponent's attack effectiveness
-        if opponent_move_type in type_chart and player_type in type_chart[
-            opponent_move_type]['super_effective']:
-          opponent_damage = int(opponent_damage * 1.5)
+        damage_modifier = get_damage_multiplier(opponent_move_type, player_type)
+        opponent_damage = int(opponent_damage * damage_modifier)
+
+        if damage_modifier > 1.0:
           opponent_effectiveness_message = "\033[1mIt's super effective!\033[0m"
-        elif opponent_move_type in type_chart and player_type in type_chart[
-            opponent_move_type]['not_very_effective']:
-          opponent_damage = int(opponent_damage * 0.5)
+        elif damage_modifier < 1.0:
           opponent_effectiveness_message = "\033[1mIt's not very effective!\033[0m"
 
       user_pokemon.take_damage(opponent_damage)
@@ -277,3 +272,5 @@ while user_pokemon.stats['hp'] > 0 and opponent_pokemon.stats['hp'] > 0:
 
 # end of battle
 print("\nThe battle is over.")
+
+

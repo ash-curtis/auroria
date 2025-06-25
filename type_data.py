@@ -1,74 +1,153 @@
 type_chart = {
   'Normal': {
-    'super_effective': ['Ghost'],
-    'not_very_effective': ['Rock', 'Steel']
+    'Ghost': 1.5,
+    'Rock': 0.5,
+    'Steel': 0.5
   },
   'Fire': {
-    'super_effective': ['Grass', 'Ice', 'Bug', 'Steel'],
-    'not_very_effective': ['Rock', 'Fire','Water', 'Dragon']
+    'Grass': 1.5,
+    'Ice': 1.5,
+    'Bug': 1.5,
+    'Steel': 1.5,
+    'Rock': 0.5,
+    'Fire': 0.5,
+    'Water': 0.5,
+    'Dragon': 0.5
   },
   'Water': {
-    'super_effective': ['Fire', 'Ground', 'Rock'],
-    'not_very_effective': ['Water', 'Grass', 'Dragon']
+    'Fire': 1.5,
+    'Ground': 1.5,
+    'Rock': 1.5,
+    'Water': 0.5,
+    'Grass': 0.5,
+    'Dragon': 0.5
   },
   'Electric': {
-    'super_effective': ['Water', 'Flying'],
-    'not_very_effective': ['Electric', 'Grass', 'Dragon']
+    'Water': 1.5,
+    'Flying': 1.5,
+    'Electric': 0.5,
+    'Grass': 0.5,
+    'Dragon': 0.5
   },
   'Grass': {
-    'super_effective': ['Water', 'Ground', 'Rock'],
-    'not_very_effective': ['Fire', 'Grass', 'Poison', 'Flying', 'Bug', 'Dragon', 'Steel']
+    'Water': 1.5,
+    'Ground': 1.5,
+    'Rock': 1.5,
+    'Fire': 0.5,
+    'Grass': 0.5,
+    'Poison': 0.5,
+    'Flying': 0.5,
+    'Bug': 0.5,
+    'Dragon': 0.5,
+    'Steel': 0.5
   },
   'Ice': {
-    'super_effective': ['Grass', 'Ground', 'Flying', 'Dragon'],
-    'not_very_effective': ['Fire', 'Water', 'Ice', 'Steel']
+    'Grass': 1.5,
+    'Ground': 1.5,
+    'Flying': 1.5,
+    'Dragon': 1.5,
+    'Fire': 0.5,
+    'Water': 0.5,
+    'Ice': 0.5,
+    'Steel': 0.5
   },
   'Fighting': {
-    'super_effective': ['Normal', 'Ice', 'Rock', 'Dark', 'Steel'],
-    'not_very_effective': ['Poison', 'Flying', 'Psychic', 'Bug', 'Fairy']
+    'Normal': 1.5,
+    'Ice': 1.5,
+    'Rock': 1.5,
+    'Dark': 1.5,
+    'Steel': 1.5,
+    'Poison': 0.5,
+    'Flying': 0.5,
+    'Psychic': 0.5,
+    'Bug': 0.5,
+    'Fairy': 0.5
   },
   'Poison': {
-    'super_effective': ['Grass', 'Fairy'],
-    'not_very_effective': ['Poison', 'Ground', 'Rock', 'Ghost']
+    'Grass': 1.5,
+    'Fairy': 1.5,
+    'Poison': 0.5,
+    'Ground': 0.5,
+    'Rock': 0.5,
+    'Ghost': 0.5
   },
   'Ground': {
-    'super_effective': ['Fire', 'Electric', 'Poison', 'Rock', 'Steel'],
-    'not_very_effective': ['Grass', 'Bug']
+    'Fire': 1.5,
+    'Electric': 1.5,
+    'Poison': 1.5,
+    'Rock': 1.5,
+    'Steel': 1.5,
+    'Grass': 0.5,
+    'Bug': 0.5
   },
   'Flying': {
-    'super_effective': ['Grass', 'Fighting', 'Bug'],
-    'not_very_effective': ['Electric', 'Rock', 'Steel']
+    'Grass': 1.5,
+    'Fighting': 1.5,
+    'Bug': 1.5,
+    'Electric': 0.5,
+    'Rock': 0.5,
+    'Steel': 0.5
   },
   'Psychic': {
-    'super_effective': ['Fighting', 'Poison'],
-    'not_very_effective': ['Psychic', 'Steel']
+    'Fighting': 1.5,
+    'Poison': 1.5,
+    'Psychic': 0.5,
+    'Steel': 0.5
   },
   'Bug': {
-    'super_effective': ['Grass', 'Psychic', 'Dark'],
-    'not_very_effective': ['Fire', 'Fighting', 'Poison', 'Flying', 'Ghost', 'Steel', 'Fairy']
+    'Grass': 1.5,
+    'Psychic': 1.5,
+    'Dark': 1.5,
+    'Fire': 0.5,
+    'Fighting': 0.5,
+    'Poison': 0.5,
+    'Flying': 0.5,
+    'Ghost': 0.5,
+    'Steel': 0.5,
+    'Fairy': 0.5
   },
   'Rock': {
-    'super_effective': ['Fire', 'Ice', 'Flying', 'Bug'],
-    'not_very_effective': ['Fighting', 'Ground', 'Steel']
+    'Fire': 1.5,
+    'Ice': 1.5,
+    'Flying': 1.5,
+    'Bug': 1.5,
+    'Fighting': 0.5,
+    'Ground': 0.5,
+    'Steel': 0.5
   },
   'Ghost': {
-    'super_effective': ['Psychic', 'Ghost'],
-    'not_very_effective': ['Dark']
+    'Psychic': 1.5,
+    'Ghost': 1.5,
+    'Dark': 0.5
   },
   'Dragon': {
-    'super_effective': ['Dragon'],
-    'not_very_effective': ['Steel']
+    'Dragon': 1.5,
+    'Steel': 0.5
   },
   'Dark': {
-    'super_effective': ['Psychic', 'Ghost'],
-    'not_very_effective': ['Fighting', 'Dark', 'Fairy']
+    'Psychic': 1.5,
+    'Ghost': 1.5,
+    'Fighting': 0.5,
+    'Dark': 0.5,
+    'Fairy': 0.5
   },
   'Steel': {
-    'super_effective': ['Ice', 'Rock', 'Fairy'],
-    'not_very_effective': ['Fire', 'Water', 'Electric', 'Steel']
+    'Ice': 1.5,
+    'Rock': 1.5,
+    'Fairy': 1.5,
+    'Fire': 0.5,
+    'Water': 0.5,
+    'Electric': 0.5,
+    'Steel': 0.5
   },
   'Fairy': {
-    'super_effective': ['Fighting', 'Dragon' 'Dark'],
-    'not_very_effective': ['Fire', 'Poison', 'Steel']
+    'Fighting': 1.5,
+    'DragonDark': 1.5,
+    'Fire': 0.5,
+    'Poison': 0.5,
+    'Steel': 0.5
   },
 }
+
+def get_damage_multiplier(attacking_type, defending_type):
+  return type_chart.get(attacking_type, {}).get(defending_type, 1.0)
